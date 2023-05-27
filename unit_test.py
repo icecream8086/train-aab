@@ -24,7 +24,7 @@ basicset = torch.utils.data.ConcatDataset([train_set_1, ])
 basicloader = torch.utils.data.DataLoader(basicset, batch_size=32, shuffle=True)
 
 # 划分数据集，并打乱顺序
-train_set, test_set, val_set = torch.utils.data.random_split(basicset, [0.4, 0.3, 0.3])
+train_set, test_set, val_set = torch.utils.data.random_split(basicset, [0.6, 0.2, 0.2])
 train_loader = torch.utils.data.DataLoader(train_set, batch_size=32, shuffle=True)
 test_loader = torch.utils.data.DataLoader(test_set, batch_size=32, shuffle=True)
 val_loader = torch.utils.data.DataLoader(val_set, batch_size=32, shuffle=True)
