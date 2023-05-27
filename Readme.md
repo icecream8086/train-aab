@@ -28,9 +28,9 @@
 
 ```shell
 
-# Validation Loss: 0.0008, Validation Accuracy: 0.9944
+# Validation Loss: 0.0006, Validation Accuracy: 0.9944
 
-# Test Loss: 0.0023, Test Accuracy: 0.9874
+# Test Loss: 0.0016, Test Accuracy: 0.9902
 
 
 ```
