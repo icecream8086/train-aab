@@ -64,16 +64,10 @@ class Net(nn.Module):
         return num_features
 
 
-# 定义参数字典
-params = {
-    "n_conv1_filters": [6, 12, 18],
-    "n_conv2_filters": [16, 32, 48],
-    "n_fc1_units": [120, 240, 360],
-    "n_fc2_units": [84, 168, 252]
-}
-
 # 创建模型实例
 model = Net()
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+model.to(device)
 
 # 定义损失函数
 loss_function = nn.CrossEntropyLoss()
@@ -81,22 +75,21 @@ loss_function = nn.CrossEntropyLoss()
 # 使用torch.optim.lr_scheduler进行学习率调整
 optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9) # 选择一个优化器
 scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=2, gamma=0.1) # 选择一个scheduler类和参数
-trial = Trial(model, optimizer, loss_function, metrics=['loss']) # 创建一个trial对象，不需要传入scheduler作为回调函数
+trial = Trial(model, optimizer, loss_function, metrics=['loss']) # 创建一个trial对象
 
-# 设置训练步数和数据生成器
+# 设置训练步数和数据生成器，将数据移动到GPU
 trial.for_steps(100).with_generators(
     train_generator=train_loader,
     val_generator=val_loader,
     test_generator=test_loader
-).run(epochs=10)
+).to(device)
 
 # 运行trial
 for epoch in range(10):
     trial.run(epochs=1) # 每次运行一个epoch
     scheduler.step() # 每个epoch后更新学习率
 
-
-
-# 保存模型
+# 将模型移回CPU并保存
+model.to('cpu')
 PATH = './a.pth'
 torch.save(model.state_dict(), PATH)
