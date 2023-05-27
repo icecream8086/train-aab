@@ -1,11 +1,7 @@
 import torch
-import torchbearer
 from torchbearer import Trial
-from torch import nn, optim
+from torch import nn
 from torchvision import datasets, transforms
-from torch.optim.lr_scheduler import StepLR
-from torch.utils.data import DataLoader
-from torch.optim.lr_scheduler import StepLR
 from CNN_lib.net_model import Net
 
 
