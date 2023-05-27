@@ -6,6 +6,7 @@ from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
 from torch.utils.data import DataLoader
 from torch.optim.lr_scheduler import StepLR
+from CNN_lib import Net
 
 
 # 定义数据预处理的方法
@@ -27,10 +28,11 @@ basicset = torch.utils.data.ConcatDataset([train_set_1, ])
 basicloader = torch.utils.data.DataLoader(basicset, batch_size=32, shuffle=True)
 
 # 划分数据集，并打乱顺序
-train_set, test_set, val_set = torch.utils.data.random_split(basicset, [0.8, 0.1, 0.1])
+train_set, test_set, val_set = torch.utils.data.random_split(basicset, [0.4, 0.3, 0.3])
 train_loader = torch.utils.data.DataLoader(train_set, batch_size=32, shuffle=True)
 test_loader = torch.utils.data.DataLoader(test_set, batch_size=32, shuffle=True)
 val_loader = torch.utils.data.DataLoader(val_set, batch_size=32, shuffle=True)
+
 
 
 class Net(nn.Module):
@@ -64,32 +66,48 @@ class Net(nn.Module):
         return num_features
 
 
-# 创建模型实例
+# 加载模型
 model = Net()
-device = 'cuda' if torch.cuda.is_available() else 'cpu'
-model.to(device)
+# 加载模型状态字典
+state_dict = torch.load('a.pth')
 
+# 将状态字典加载到模型对象中
+model.load_state_dict(state_dict)
+
+# 将模型设置为评估模式
+model.eval()
 # 定义损失函数
-loss_function = nn.CrossEntropyLoss()
+criterion = torch.nn.CrossEntropyLoss()
 
-# 使用torch.optim.lr_scheduler进行学习率调整
-optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9) # 选择一个优化器
-scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=2, gamma=0.1) # 选择一个scheduler类和参数
-trial = Trial(model, optimizer, loss_function, metrics=['loss']) # 创建一个trial对象
+# 定义变量来跟踪损失和准确率
+val_loss = 0
+val_acc = 0
+test_loss = 0
+test_acc = 0
 
-# 设置训练步数和数据生成器，将数据移动到GPU
-trial.for_steps(1000).with_generators(
-    train_generator=train_loader,
-    val_generator=val_loader,
-    test_generator=test_loader
-).to(device)
+# 在验证集上评估模型
+with torch.no_grad():
+    for images, labels in val_loader:
+        outputs = model(images)
+        loss = criterion(outputs, labels)
+        val_loss += loss.item()
+        _, predicted = torch.max(outputs.data, 1)
+        val_acc += (predicted == labels).sum().item()
 
-# 运行trial
-for epoch in range(100):
-    trial.run(epochs=1) # 每次运行一个epoch
-    scheduler.step() # 每个epoch后更新学习率
+# 在测试集上评估模型
+with torch.no_grad():
+    for images, labels in test_loader:
+        outputs = model(images)
+        loss = criterion(outputs, labels)
+        test_loss += loss.item()
+        _, predicted = torch.max(outputs.data, 1)
+        test_acc += (predicted == labels).sum().item()
 
-# 将模型移回CPU并保存
-model.to('cpu')
-PATH = './a.pth'
-torch.save(model.state_dict(), PATH)
+# 计算平均损失和准确率
+val_loss /= len(val_loader.dataset)
+val_acc /= len(val_loader.dataset)
+test_loss /= len(test_loader.dataset)
+test_acc /= len(test_loader.dataset)
+
+print('Validation Loss: {:.4f}, Validation Accuracy: {:.4f}'.format(val_loss, val_acc))
+print('Test Loss: {:.4f}, Test Accuracy: {:.4f}'.format(test_loss, test_acc))
