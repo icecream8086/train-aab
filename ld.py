@@ -45,14 +45,14 @@ scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=2, gamma=0.1) #
 trial = Trial(model, optimizer, loss_function, metrics=['loss']) # 创建一个trial对象
 
 # 设置训练步数和数据生成器，将数据移动到GPU
-trial.for_steps(1000).with_generators(
+trial.for_steps(10000).with_generators(
     train_generator=train_loader,
     val_generator=val_loader,
     test_generator=test_loader
 ).to(device)
 
 # 运行trial
-for epoch in range(100):
+for epoch in range(1000):
     trial.run(epochs=1) # 每次运行一个epoch
     scheduler.step() # 每个epoch后更新学习率
 
