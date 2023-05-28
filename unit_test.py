@@ -24,12 +24,14 @@ test_loader = torch.utils.data.DataLoader(test_set, batch_size=32, shuffle=True)
 val_loader = torch.utils.data.DataLoader(val_set, batch_size=32, shuffle=True)
 
 
+# 判断是否有GPU可用
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+print('Device:', device)
 
-
-# 加载模型
-model = Net()
-# 加载模型状态字典
-state_dict = torch.load('a.pth')
+# 加载模型到GPU
+model = Net().to(device)
+# 加载模型状态字典到GPU
+state_dict = torch.load('a.pth', map_location=device)
 
 # 将状态字典加载到模型对象中
 model.load_state_dict(state_dict)
@@ -48,6 +50,7 @@ test_acc = 0
 # 在验证集上评估模型
 with torch.no_grad():
     for images, labels in val_loader:
+        images, labels = images.to(device), labels.to(device)
         outputs = model(images)
         loss = criterion(outputs, labels)
         val_loss += loss.item()
@@ -57,6 +60,7 @@ with torch.no_grad():
 # 在测试集上评估模型
 with torch.no_grad():
     for images, labels in test_loader:
+        images, labels = images.to(device), labels.to(device)
         outputs = model(images)
         loss = criterion(outputs, labels)
         test_loss += loss.item()
