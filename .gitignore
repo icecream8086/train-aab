@@ -1,4 +1,5 @@
 dataset
+server.py
 apiserver
 *.log
 *.jpg
