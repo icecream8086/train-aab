@@ -1,6 +1,7 @@
 dataset
 server.py
 apiserver
+startserver.sh
 *.log
 *.jpg
 *.pth
