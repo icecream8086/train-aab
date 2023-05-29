@@ -1,6 +1,8 @@
 dataset
 apiserver
 startserver.sh
+# 性能分析器
+strace.sh
 *.log
 *.jpg
 *.pth
