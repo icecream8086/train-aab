@@ -3,26 +3,33 @@ from torchvision import datasets, transforms
 from CNN_lib.net_model import Net
 
 
+mean = [0.5, 0.5, 0.5]
+std = [0.5, 0.5, 0.5]
 # 定义数据预处理的方法
+
 transform = transforms.Compose([
     transforms.Resize(256),
-    transforms.CenterCrop(224),
+    transforms.RandomRotation(30),
+    transforms.RandomResizedCrop(224),
+    transforms.RandomHorizontalFlip(),
+    transforms.ColorJitter(brightness=0.4, contrast=0.4, saturation=0.4, hue=0.1),
     transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+    transforms.Normalize(mean=mean, std=std)
 ])
+
 
 # 加载数据集
 train_set_1 = datasets.ImageFolder('dataset', transform=transform)
 
+
 basicset = torch.utils.data.ConcatDataset([train_set_1, ])
-basicloader = torch.utils.data.DataLoader(basicset, batch_size=32, shuffle=True)
+basicloader = torch.utils.data.DataLoader(basicset, batch_size=256, shuffle=True)
 
 # 划分数据集，并打乱顺序
 train_set, test_set, val_set = torch.utils.data.random_split(basicset, [0.6, 0.2, 0.2])
-train_loader = torch.utils.data.DataLoader(train_set, batch_size=32, shuffle=True)
-test_loader = torch.utils.data.DataLoader(test_set, batch_size=32, shuffle=True)
-val_loader = torch.utils.data.DataLoader(val_set, batch_size=32, shuffle=True)
-
+train_loader = torch.utils.data.DataLoader(train_set, batch_size=256, shuffle=True,num_workers=6, pin_memory=True)
+test_loader = torch.utils.data.DataLoader(test_set, batch_size=256, shuffle=True,num_workers=6, pin_memory=True)
+val_loader = torch.utils.data.DataLoader(val_set, batch_size=256, shuffle=True,num_workers=6, pin_memory=True)
 
 # 判断是否有GPU可用
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
