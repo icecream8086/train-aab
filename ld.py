@@ -17,13 +17,13 @@ train_set_1 = datasets.ImageFolder('dataset', transform=transform)
 
 
 basicset = torch.utils.data.ConcatDataset([train_set_1, ])
-basicloader = torch.utils.data.DataLoader(basicset, batch_size=32, shuffle=True)
+basicloader = torch.utils.data.DataLoader(basicset, batch_size=256, shuffle=True)
 
 # 划分数据集，并打乱顺序
 train_set, test_set, val_set = torch.utils.data.random_split(basicset, [0.6, 0.2, 0.2])
-train_loader = torch.utils.data.DataLoader(train_set, batch_size=32, shuffle=True)
-test_loader = torch.utils.data.DataLoader(test_set, batch_size=32, shuffle=True)
-val_loader = torch.utils.data.DataLoader(val_set, batch_size=32, shuffle=True)
+train_loader = torch.utils.data.DataLoader(train_set, batch_size=256, shuffle=True)
+test_loader = torch.utils.data.DataLoader(test_set, batch_size=256, shuffle=True)
+val_loader = torch.utils.data.DataLoader(val_set, batch_size=256, shuffle=True)
 
 
 # 创建模型实例
@@ -48,7 +48,7 @@ trial.for_steps(12000).with_generators(
 ).to(device)
 
 # 运行trial
-for epoch in range(10000):
+for epoch in range(100):
     trial.run(epochs=1) # 每次运行一个epoch
     scheduler.step() # 每个epoch后更新学习率
 
