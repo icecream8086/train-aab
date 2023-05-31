@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from sdk.access import predict_image
+from sdk.access import predict_images
 
 app = Flask(__name__)
 
@@ -8,7 +8,7 @@ def predict():
     if 'image' not in request.files:
         return jsonify({'error': 'No image file provided'})
     image = request.files['image']
-    predicted_label = predict_image(image)
+    predicted_label = predict_images(image)
     return jsonify({'label': predicted_label})
 
 if __name__ == '__main__':
