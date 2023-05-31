@@ -39,7 +39,7 @@ scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=2, gamma=0.1) #
 trial = Trial(model, optimizer, loss_function) # 创建一个trial对象，不传入 metrics 参数
 
 # 设置训练 epoch 数和数据生成器，将数据移动到GPU
-trial.for_steps(10000).with_generators(
+trial.for_steps(12000).with_generators(
     train_generator=train_loader,
     val_generator=val_loader,
     test_generator=test_loader
