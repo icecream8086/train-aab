@@ -8,7 +8,7 @@ def predict():
     if 'image' not in request.files:
         return jsonify({'error': 'No image file provided'})
     image = request.files['image']
-    predicted_label = predict_images(image)
+    predicted_label = predict_images(image, 'a.pth', 'cpu')
     return jsonify({'label': predicted_label})
 
 if __name__ == '__main__':

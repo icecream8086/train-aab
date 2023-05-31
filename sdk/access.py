@@ -5,7 +5,8 @@ from PIL import Image
 
 # Check if GPU is available
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print(f"default mode {device}")
+# device = torch.device("cpu")
+print(f"default mode {device} is used")
 
 # Define data transformations
 transform = transforms.Compose([
@@ -47,6 +48,7 @@ model.eval()
 criterion = torch.nn.CrossEntropyLoss()
 
 def predict_images(image_path, model_path='a.pth', device='cpu', batch_size=1):
+    print(device)
     # batch_size指定在一个模型迭代中应该处理多少张图片
     # 通过设置大于1的 batch_size，您可以在同一次模型正向传递中同时处理多个图像，这比逐个处理每个图像更快。
     # 最好不要乱动batch_size,可能有奇怪的bug

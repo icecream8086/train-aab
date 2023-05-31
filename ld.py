@@ -5,20 +5,21 @@ from torchvision import datasets
 from CNN_lib.net_model import Net
 from CNN_lib.dataset import transform
 
-train_set = datasets.ImageFolder('dataset', transform=transform)
-
-# 划分数据集
-train_size = int(len(train_set) * 0.6)
-test_size = int(len(train_set) * 0.2)
-val_size = len(train_set) - train_size - test_size
-# 加载数据集
 train_set_1 = datasets.ImageFolder('dataset', transform=transform)
 basicset = torch.utils.data.ConcatDataset([train_set_1, ])
 basicloader = torch.utils.data.DataLoader(basicset, batch_size=32, shuffle=True)
 
-# 划分数据集，并打乱顺序
+# 对数据集进行随机打乱
+indices = torch.randperm(len(basicset))
+basicset = torch.utils.data.Subset(basicset, indices)
 
+# 划分数据集
+train_size = int(len(basicset) * 0.6)
+test_size = int(len(basicset) * 0.2)
+val_size = len(basicset) - train_size - test_size
 train_set, test_set, val_set = torch.utils.data.random_split(basicset, [train_size, test_size, val_size])
+
+# 加载数据集
 train_loader = torch.utils.data.DataLoader(train_set, batch_size=32, shuffle=True)
 test_loader = torch.utils.data.DataLoader(test_set, batch_size=32, shuffle=True)
 val_loader = torch.utils.data.DataLoader(val_set, batch_size=32, shuffle=True)
@@ -45,7 +46,7 @@ trial.for_steps(10000).with_generators(
 ).to(device)
 
 # 运行trial
-for epoch in range(12000):
+for epoch in range(3600):
     trial.run(epochs=1) # 每次运行一个epoch
     scheduler.step() # 每个epoch后更新学习率
 
