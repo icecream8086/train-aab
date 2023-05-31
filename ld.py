@@ -46,7 +46,7 @@ trial.for_steps(12000).with_generators(
 ).to(device)
 
 # 运行trial
-for epoch in range(3600):
+for epoch in range(1200):
     trial.run(epochs=1) # 每次运行一个epoch
     scheduler.step() # 每个epoch后更新学习率
 
