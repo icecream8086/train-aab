@@ -7,14 +7,21 @@ from CNN_lib.dataset import transform
 # 定义数据预处理的方法
 
 
-# 加载数据集
 train_set_1 = datasets.ImageFolder('dataset', transform=transform)
-
 basicset = torch.utils.data.ConcatDataset([train_set_1, ])
 basicloader = torch.utils.data.DataLoader(basicset, batch_size=32, shuffle=True)
 
-# 划分数据集，并打乱顺序
-train_set, test_set, val_set = torch.utils.data.random_split(basicset, [0.6, 0.2, 0.2])
+# 对数据集进行随机打乱
+indices = torch.randperm(len(basicset))
+basicset = torch.utils.data.Subset(basicset, indices)
+
+# 划分数据集
+train_size = int(len(basicset) * 0.6)
+test_size = int(len(basicset) * 0.2)
+val_size = len(basicset) - train_size - test_size
+train_set, test_set, val_set = torch.utils.data.random_split(basicset, [train_size, test_size, val_size])
+
+# 加载数据集
 train_loader = torch.utils.data.DataLoader(train_set, batch_size=32, shuffle=True)
 test_loader = torch.utils.data.DataLoader(test_set, batch_size=32, shuffle=True)
 val_loader = torch.utils.data.DataLoader(val_set, batch_size=32, shuffle=True)
