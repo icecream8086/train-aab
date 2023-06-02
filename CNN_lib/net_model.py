@@ -1,7 +1,5 @@
 import torch
 import torch.nn as nn
-import torch.optim as optim
-from torchvision import datasets
 import torchvision.models as models
 
 class ResNet50(nn.Module):

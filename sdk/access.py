@@ -1,6 +1,7 @@
 import torch
 from torchvision import datasets, transforms
-from CNN_lib.net_model import Net
+from CNN_lib.net_model import ResNet50
+from CNN_lib.dataset import transform
 from PIL import Image
 
 # Check if GPU is available
@@ -8,13 +9,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # device = torch.device("cpu")
 print(f"default mode {device} is used")
 
-# Define data transformations
-transform = transforms.Compose([
-    transforms.Resize(256),
-    transforms.CenterCrop(224),
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-])
+
 
 # Load the dataset
 train_set_1 = datasets.ImageFolder('dataset', transform=transform)
@@ -30,13 +25,13 @@ test_loader = torch.utils.data.DataLoader(test_set, batch_size=32, shuffle=True)
 val_loader = torch.utils.data.DataLoader(val_set, batch_size=32, shuffle=True)
 
 # Load the model
-model = Net()
+model = ResNet50()
 
 # Move the model to the device
 model.to(device)
 
 # Load the model state dictionary
-state_dict = torch.load('a.pth')
+state_dict = torch.load('ResNet-0602.pth')
 
 # Load the state dictionary to the model
 model.load_state_dict(state_dict)
@@ -54,7 +49,7 @@ def predict_images(image_path, model_path='a.pth', device='cpu', batch_size=1):
     # 最好不要乱动batch_size,可能有奇怪的bug
 
     # Load the model
-    model = Net()
+    model = ResNet50()
 
     # Move the model to the device
     model.to(device)
