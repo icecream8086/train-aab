@@ -5,7 +5,7 @@ import torch.optim as optim
 from torchvision import datasets
 import torchvision.models as models
 from CNN_lib.dataset import transform
-from CNN_lib.net_model import ResNet50
+from CNN_lib.net_model import ResNet_0602
 
 train_set_1 = datasets.ImageFolder('dataset', transform=transform)
 basicset = torch.utils.data.ConcatDataset([train_set_1, ])
@@ -77,7 +77,7 @@ def test(model, device, val_loader, criterion):
     
 # 设置超参数并训练模型
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-model = ResNet50(num_classes=10)
+model = ResNet_0602(num_classes=10)
 model.to(device)
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 criterion = nn.CrossEntropyLoss()

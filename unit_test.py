@@ -1,7 +1,7 @@
 import torch
 from torchvision import datasets
 import torch.nn as nn
-from CNN_lib.net_model import ResNet50
+from CNN_lib.net_model import ResNet_0602
 from CNN_lib.dataset import transform
 
 
@@ -24,7 +24,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 print('Device:', device)
 
 # 加载模型到GPU
-model = ResNet50(num_classes=5).to(device)
+model = ResNet_0602(num_classes=5).to(device)
 
 # 加载模型状态字典到CPU
 state_dict = torch.load('ResNet-0602.pth', map_location=torch.device('cpu'))

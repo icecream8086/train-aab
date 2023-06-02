@@ -2,9 +2,9 @@ import torch
 import torch.nn as nn
 import torchvision.models as models
 
-class ResNet50(nn.Module):
+class ResNet_0602(nn.Module):
     def __init__(self, num_classes, freeze_layers=True):
-        super(ResNet50, self).__init__()
+        super(ResNet_0602, self).__init__()
         self.num_classes = num_classes
         self.resnet50 = models.resnet50(pretrained=True)
         if freeze_layers:
