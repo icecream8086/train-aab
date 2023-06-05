@@ -1,11 +1,9 @@
 # 定义数据预处理的方法
 
 # 定义数据处理部分
-from tkinter import Image
 import cv2
 import numpy as np
 from torchvision import transforms
-from PIL import Image
 import cv2
 
 class EdgeEnhance:
@@ -31,12 +29,3 @@ transform = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize(mean=[0.485, 0.6, 0.406], std=[0.229, 0.224, 0.225])
 ])
-
-# transform = transforms.Compose([
-#     transforms.RandomResizedCrop(224),
-#     transforms.RandomHorizontalFlip(),
-#     transforms.ColorJitter(brightness=0.1, contrast=0.1, saturation=0.1, hue=0.05),
-#     transforms.RandomRotation(10),
-#     transforms.ToTensor(),
-#     transforms.Normalize(mean=[0.485, 0.6, 0.406], std=[0.229, 0.224, 0.225])
-# ])
