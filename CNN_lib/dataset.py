@@ -1,30 +1,29 @@
 # 定义数据预处理的方法
 
 # 定义数据处理部分
+from tkinter import Image
+import cv2
+import numpy as np
 from torchvision import transforms
-import torch
-import torch.nn as nn
-import torchvision.models as models
+from PIL import Image
 import cv2
 
-def canny_edge(image, threshold1=100, threshold2=200):
-    image = image.numpy().transpose(1, 2, 0) # 转换为opencv格式
-    image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY) # 转换为灰度图像
-    image = cv2.Canny(image, threshold1, threshold2) # 进行Canny边缘检测
-    image = cv2.cvtColor(image, cv2.COLOR_GRAY2RGB) # 转回RGB格式
-    image = image.transpose(2, 0, 1) # 转回PyTorch格式
-    return torch.from_numpy(image)
-
-
+class EdgeEnhance:
+    def __call__(self, img):
+        img = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)
+        img = cv2.Laplacian(img, cv2.CV_32F)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        img_pil = Image.fromarray(np.uint8(img))
+        img_gray_pil = img_pil.convert('L')
+        img_gray_rgb = img_gray_pil.convert('RGB')
+        return img_gray_rgb
+    
 transform = transforms.Compose([
-    transforms.RandomResizedCrop(224, scale=(0.8, 1.0)),
-    transforms.RandomHorizontalFlip(),
-    transforms.ColorJitter(brightness=0.1, contrast=0.1, saturation=0.1, hue=0.05),
-    transforms.RandomRotation(10),
-    # 随机擦除功能
-    transforms.RandomErasing(p=0.5, scale=(0.02, 0.33), ratio=(0.3, 3.3), value=0, inplace=False),
+    transforms.Resize(size=(256, 256)),
+    transforms.RandomResizedCrop(size=(224, 224), scale=(0.8, 1.0)),
+    transforms.RandomHorizontalFlip(p=0.5),
+    transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.05),
+    EdgeEnhance(),
     transforms.ToTensor(),
-    # 高亮边缘功能, 用于增强边缘特征,使用OpenCV
-    transforms.Lambda(lambda image: canny_edge(image)),
     transforms.Normalize(mean=[0.485, 0.7, 0.406], std=[0.229, 0.224, 0.225])
 ])

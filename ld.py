@@ -32,6 +32,7 @@ def train(model, device, train_loader, criterion, optimizer, epoch):
     model.train()
     running_loss = 0.0
     for batch_idx, (data, target) in enumerate(train_loader):
+        data = data.float()  # 将数据转换为浮点数类型
         data, target = data.to(device), target.to(device)
         optimizer.zero_grad()
         output = model(data)
