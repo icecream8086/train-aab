@@ -16,7 +16,12 @@ img_processed_np = img_processed.numpy().transpose((1, 2, 0))
 plt.imshow(img_processed_np)
 plt.show()
 
+# # 保存处理后的图像
+# img_processed_pil = transforms.ToPILImage()(img_processed)
+# save_path = 'apple-normal.jpg'
+# img_processed_pil.save(save_path)
+
 # 保存处理后的图像
 img_processed_pil = transforms.ToPILImage()(img_processed)
-save_path = 'apple2.jpg'
+save_path = 'apple-plus.jpg'
 img_processed_pil.save(save_path)
