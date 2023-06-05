@@ -81,7 +81,7 @@ model = ResNet_0602(num_classes=10)
 model.to(device)
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 criterion = nn.CrossEntropyLoss()
-epochs = 100
+epochs = 360
 for epoch in range(1, epochs + 1):
     train(model, device, train_loader, criterion, optimizer, epoch)
     test(model, device, val_loader, criterion)
