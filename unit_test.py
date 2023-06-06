@@ -2,7 +2,7 @@ import torch
 from torchvision import datasets
 import torch.nn as nn
 from CNN_lib.net_model import ResNet_0602
-from CNN_lib.dataset import transform
+from CNN_lib.dataset_sample import transform
 
 
 train_set = datasets.ImageFolder('dataset', transform=transform)

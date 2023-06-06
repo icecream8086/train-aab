@@ -2,7 +2,7 @@ import os
 import matplotlib.pyplot as plt
 from PIL import Image
 from torchvision import transforms
-from CNN_lib.dataset import transform
+from CNN_lib.dataset_sample import transform
 
 
 # 读取图片
@@ -23,5 +23,5 @@ plt.show()
 
 # 保存处理后的图像
 img_processed_pil = transforms.ToPILImage()(img_processed)
-save_path = 'apple-plus.jpg'
+save_path = 'apple-plus2.jpg'
 img_processed_pil.save(save_path)
