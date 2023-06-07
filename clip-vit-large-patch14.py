@@ -11,11 +11,13 @@ model_path = "clip-vit-large-patch14"
 model = CLIPModel.from_pretrained(model_path).to(device)
 processor = CLIPProcessor.from_pretrained(model_path)
 
-url = "http://images.cocodataset.org/val2017/000000039769.jpg"
-image = Image.open(requests.get(url, stream=True).raw)
+# url = "http://images.cocodataset.org/val2017/000000039769.jpg"
+# image = Image.open(requests.get(url, stream=True).raw)
+
+image = image = Image.open("e.jpg")
 image_tensor = TF.to_tensor(image).to(device)
 
-texts=["a photo of a cat", "a photo of a dog"]
+texts=["a photo of a leaf", "other"]
 inputs = processor(text=texts, images=image_tensor, return_tensors="pt", padding=True)
 inputs.to(device)
 
