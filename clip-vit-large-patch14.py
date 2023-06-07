@@ -15,7 +15,8 @@ url = "http://images.cocodataset.org/val2017/000000039769.jpg"
 image = Image.open(requests.get(url, stream=True).raw)
 image_tensor = TF.to_tensor(image).to(device)
 
-inputs = processor(text=["a photo of a cat", "a photo of a dog"], images=image_tensor, return_tensors="pt", padding=True)
+texts=["a photo of a cat", "a photo of a dog"]
+inputs = processor(text=texts, images=image_tensor, return_tensors="pt", padding=True)
 inputs.to(device)
 
 outputs = model(**inputs)
@@ -24,3 +25,10 @@ probs = logits_per_image.softmax(dim=1)
 
 print(logits_per_image)
 print(probs)
+
+# 取出匹配概率最大的描述文字
+max_prob_idx = probs.argmax(-1).item()
+max_prob_desc = texts[max_prob_idx]
+# 打印匹配概率最大的描述文字和对应的匹配概率
+print(f"Max prob description: {max_prob_desc}")
+print(f"Max prob: {probs[0][max_prob_idx]:.4f}")
