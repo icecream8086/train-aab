@@ -7,3 +7,5 @@ startserver.sh
 *.jpg
 *.pth
 *.pyc
+
+clip-vit-large-patch14
