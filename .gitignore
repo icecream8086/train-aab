@@ -8,4 +8,5 @@ startserver.sh
 *.pth
 *.pyc
 
-sdk/clip-vit-large-patch14
+clip-vit-large-patch14
+clip-vit-base-patch16
