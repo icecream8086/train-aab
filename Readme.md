@@ -10,6 +10,8 @@
 
 ## 模型
 
+> #TODO: 针对clip-vit-base-patch16进行剪枝和蒸馏，clip-vit-large-patch14 太慢了
+
 基于ResNet50模型进行预训练，如果想添加是否包含树叶的功能，此模型对于数据据之外的内容无能为力，可以加clip-vit-large-patch14模型先进行预测处理，再使用此模型进行预测。但是,这样可能会消耗更多的资源
 
 关于clip-vit-large-patch14
