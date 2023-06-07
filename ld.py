@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets
-from CNN_lib.dataset_normal import transform
+from CNN_lib.dataset_sample import transform
 from CNN_lib.net_model import ResNet_0602
 
 train_set_1 = datasets.ImageFolder('dataset', transform=transform)

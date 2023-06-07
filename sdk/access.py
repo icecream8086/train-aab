@@ -4,7 +4,7 @@ import torchvision.models as models
 from PIL import Image
 from torchvision.transforms import transforms
 from CNN_lib.net_model import ResNet_0602
-from CNN_lib.dataset_normal import transform
+from CNN_lib.dataset_sample import transform
 
 class ImageClassifier:
     def __init__(self, model_path='a.pth'):
