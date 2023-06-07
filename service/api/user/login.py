@@ -30,7 +30,8 @@ class UserLogin(BaseResponse, Resource):
         if result:
             payload = {'username': result[1]}
             token = encode_token(payload, self.apptag.config['SECRET_KEY'])
-            self.response['message'] = "登录成功"
+            # 允许继承后修改
+            # self.response['message'] = "登录成功"
             self.response['data'] = {"username": result[1], "accessToken": token}
         else:
             self.response['code'] = 401
