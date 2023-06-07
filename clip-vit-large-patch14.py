@@ -17,7 +17,7 @@ processor = CLIPProcessor.from_pretrained(model_path)
 image = image = Image.open("e.jpg")
 image_tensor = TF.to_tensor(image).to(device)
 
-texts=["a photo of a leaf", "other"]
+texts=["leaf", "other"]
 inputs = processor(text=texts, images=image_tensor, return_tensors="pt", padding=True)
 inputs.to(device)
 
@@ -25,8 +25,8 @@ outputs = model(**inputs)
 logits_per_image = outputs.logits_per_image
 probs = logits_per_image.softmax(dim=1)
 
-print(logits_per_image)
-print(probs)
+# print(logits_per_image)
+# print(probs)
 
 # 取出匹配概率最大的描述文字
 max_prob_idx = probs.argmax(-1).item()
