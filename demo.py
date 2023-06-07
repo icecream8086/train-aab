@@ -10,6 +10,10 @@ from sdk.get_max_prob import get_max_prob_desc
 #  *处理图片的批量大小(实验型功能,理论上比起单队列模式可以获得更优秀的加速比,但是调用不当可能造成额外的资源消耗)
 #
 
+'''
+否决方案，这个玩意速度达到了逆天的每个请求3s/的响应时间
+
+'''
 image_classifier = ImageClassifier(model_path='ResNet-0602.pth')
 
 image_path = 'apple.jpg'
