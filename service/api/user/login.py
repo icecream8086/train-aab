@@ -32,7 +32,7 @@ class UserLogin(BaseResponse, Resource):
             token = encode_token(payload, self.apptag.config['SECRET_KEY'])
             # 允许继承后修改
             # self.response['message'] = "登录成功"
-            self.response['data'] = {"username": result[1], "accessToken": token}
+            self.response['data'] = {"id":result[0],"username": result[1], "accessToken": token}
         else:
             self.response['code'] = 401
             self.response['message'] = "用户名或密码错误"

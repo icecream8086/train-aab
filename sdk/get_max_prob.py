@@ -6,6 +6,7 @@ import torchvision.transforms.functional as TF
 
 def get_max_prob_desc(image_path, texts=["leaf", "other"], model_path="clip-vit-large-patch14"):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"Using device: {device} \n model: {model_path}")
     model = CLIPModel.from_pretrained(model_path).to(device)
     processor = CLIPProcessor.from_pretrained(model_path)
 

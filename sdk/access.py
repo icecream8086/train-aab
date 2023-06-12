@@ -7,10 +7,10 @@ from CNN_lib.net_model import ResNet_0602
 from CNN_lib.dataset_sample import transform
 
 class ImageClassifier:
-    def __init__(self, model_path='a.pth'):
+    def __init__(self, model_path='ResNet-0602.pth'):
         self.model_path = model_path
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        print(f'Using device: {self.device}')
+        print(f'Using device: {self.device} \n model: {model_path}')
         self.model = ResNet_0602(num_classes=10)  # TODO: 修改 num_classes 为具体的分类数目
         self.model.load_state_dict(torch.load(model_path, map_location=self.device))
         self.model.to(device=self.device)
