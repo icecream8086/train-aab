@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets
 from torch.optim.lr_scheduler import StepLR
-from CNN_lib.dataset_sample import transform
+from CNN_lib.dataset_normal import transform
 from CNN_lib.net_model import ResNet_0602
 
 train_set_1 = datasets.ImageFolder('dataset', transform=transform)
@@ -75,7 +75,7 @@ def test(model, device, val_loader, criterion):
     logging.info('\nValidation set: Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)\n'.format(
         val_loss, correct, len(val_loader.dataset),
         100. * correct / len(val_loader.dataset)))
-    
+
 # 设置超参数并训练模型
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = ResNet_0602(num_classes=10)
@@ -83,7 +83,7 @@ model.to(device)
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 scheduler = StepLR(optimizer, step_size=10, gamma=0.1)  # 定义学习率调度器
 criterion = nn.CrossEntropyLoss()
-epochs = 360
+epochs = 72
 
 for epoch in range(1, epochs + 1):
     train(model, device, train_loader, criterion, optimizer, epoch)
