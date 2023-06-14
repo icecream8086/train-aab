@@ -6,7 +6,7 @@ class ResNet_0602(nn.Module):
     def __init__(self, num_classes, freeze_layers=True):
         super(ResNet_0602, self).__init__()
         self.num_classes = num_classes
-        self.resnet50 = models.resnet50(pretrained=False)   # 预训练模型毫无蛋用
+        self.resnet50 = models.resnet50(pretrained=True)
         if freeze_layers:
             for param in self.resnet50.parameters():
                 param.requires_grad = False
