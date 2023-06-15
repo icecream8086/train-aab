@@ -1,8 +1,5 @@
 import torch
-import torch.nn as nn
-import torchvision.models as models
 from PIL import Image
-from torchvision.transforms import transforms
 from CNN_lib.net_model import ResNet_0602
 from CNN_lib.dataset_sample import transform
 
