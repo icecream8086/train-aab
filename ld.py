@@ -83,7 +83,7 @@ model.to(device)
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 scheduler = StepLR(optimizer, step_size=10, gamma=0.1)  # 定义学习率调度器
 criterion = nn.CrossEntropyLoss()
-epochs = 72
+epochs = 360
 
 for epoch in range(1, epochs + 1):
     train(model, device, train_loader, criterion, optimizer, epoch)
