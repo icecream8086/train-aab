@@ -12,7 +12,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model.load_state_dict(torch.load("ResNet-0602.pth"))
 model.to(device)
 
-prune_percentage = 0.01  # Pruning ratio, adjust as needed
+prune_percentage = 0.2  # Pruning ratio, adjust as needed
 
 # Prune convolutional layers in the resnet50 module
 for module in model.resnet50.modules():
