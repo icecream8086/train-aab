@@ -2,7 +2,7 @@ import torch
 from torchvision import datasets
 import torch.nn as nn
 from CNN_lib.net_model import ResNet_0602
-from CNN_lib.dataset import transform
+from CNN_lib.dataset_sample import transform
 
 
 train_set = datasets.ImageFolder('dataset', transform=transform)
@@ -27,7 +27,7 @@ print('Device:', device)
 model = ResNet_0602(num_classes=5).to(device)
 
 # 加载模型状态字典到CPU
-state_dict = torch.load('ResNet-0602.pth', map_location=torch.device('cpu'))
+state_dict = torch.load('ResNet-0602-pruned.pth', map_location=torch.device('cpu'))
 
 # 将状态字典中的 fc 层调整为 [5, 512]
 state_dict['fc.3.weight'] = state_dict['fc.3.weight'][:5]

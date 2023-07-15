@@ -1,29 +1,19 @@
 import torch
-import torch.nn as nn
-import torchvision.models as models
 from PIL import Image
-from torchvision.transforms import transforms
 from CNN_lib.net_model import ResNet_0602
+from CNN_lib.dataset_sample import transform
 
 class ImageClassifier:
-    def __init__(self, model_path='a.pth'):
+    def __init__(self, model_path='ResNet-0602.pth'):
         self.model_path = model_path
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-        print(f'Using device: {self.device}')
+        print(f'Using device: {self.device} \n model: {model_path}')
         self.model = ResNet_0602(num_classes=10)  # TODO: 修改 num_classes 为具体的分类数目
         self.model.load_state_dict(torch.load(model_path, map_location=self.device))
         self.model.to(device=self.device)
         self.model.eval()
 
-        self.transform = transforms.Compose([
-            transforms.Resize(256),
-            transforms.CenterCrop(224),
-            transforms.ToTensor(),
-            transforms.Normalize(
-                mean=[0.485, 0.456, 0.406],
-                std=[0.229, 0.224, 0.225]
-            )
-        ])
+        self.transform = transform
 
     def predict_images(self, image_path, batch_size=1):
         images = self._load_images(image_path)
